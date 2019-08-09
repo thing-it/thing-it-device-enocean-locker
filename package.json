@@ -1,0 +1,15 @@
+{
+  "name": "thing-it-device-enocean-locker",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "assets": "^3.0.1",
+    "mocha": "^5.2.0",
+    "thing-it-test": "0.0.32"
+  }
+}
