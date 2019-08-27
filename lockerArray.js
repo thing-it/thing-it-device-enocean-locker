@@ -5,6 +5,7 @@ module.exports = {
     family: 'enocean-locker',
     plugin: 'lockerArray',
     label: 'EnOcean Locker Array',
+    tangible: true,
     manufacturer: '',
     discoverable: false,
     actorTypes: [],
@@ -27,6 +28,16 @@ module.exports = {
         defaultValue: "0"
       }
 
+    ],
+    services: [
+      {
+        id: "open",
+        label: "Open",
+      },
+      {
+        id: "close",
+        label: "Close",
+      }
     ]
   },
   create: function () {
@@ -45,7 +56,9 @@ function LockerArray() {
     };
     this.publishOperationalStateChange();
 
-    this.state = {};
+    this.state = {
+      arrayOfLockers: []
+    };
 
     this.operationalState = {
       status: 'OK',
@@ -65,4 +78,38 @@ function LockerArray() {
 
     return Promise.resolve();
   }
+  
+  LockerArray.prototype.getState = function () {
+    this.updateArrayOfLockers();
+    return this.state;
+  }
+
+  LockerArray.prototype.updateArrayOfLockers = function () {
+    let result = [];
+    this.actors.forEach(actor => {
+      result.push(actor.state);
+    });
+    
+    this.state.arrayOfLockers = result;
+  }
+
+  LockerArray.prototype.open = function (lockerId) {
+    this.actors.forEach(item => {
+      if (item.configuration.lockerId == lockerId) {
+        item.open();
+      }
+    });
+    this.publishStateChange();
+    console.log('open locker', lockerId);
+  }
+  
+  LockerArray.prototype.close = function (lockerId) {
+    this.actors.forEach(item => {
+      if (item.configuration.lockerId == lockerId) {
+        item.close();
+      }
+    });
+    console.log('close locker', lockerId);
+  }
+
 }

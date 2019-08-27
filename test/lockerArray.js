@@ -23,7 +23,7 @@ describe('Test Server fixture functionality', function () {
     it('operational state of device and all actors should be ok', function (done) {
       setTimeout(function () {
         assert.deepEqual(testDriver.lockerArray01.operationalState.status, 'OK', 'device is not started correctly');
-        assert.deepEqual(testDriver.lockerArray01.locker01.operationalState.status, 'OK', 'locker actor is not started correctly');        
+        assert.deepEqual(testDriver.lockerArray01.locker01.operationalState.status, 'OK', 'locker actor is not started correctly');                
         done();
       }.bind(this), 2000);
     });  
@@ -43,10 +43,11 @@ describe('Test Server fixture functionality', function () {
         testDriver.lockerArray01.locker01.open();
         assert.deepEqual(testDriver.lockerArray01.locker01.state.locked, false, 'actor lock havent method open');
         testDriver.lockerArray01.locker01.close();
-        assert.deepEqual(testDriver.lockerArray01.locker01.state.locked, true, 'actor lock havent method open');
+        assert.deepEqual(testDriver.lockerArray01.locker01.state.locked, true, 'actor lock havent method open');        
         done();
       }.bind(this), 2000);
     });  
+
   });
 
   after(function () {

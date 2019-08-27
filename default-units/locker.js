@@ -17,6 +17,22 @@ module.exports = {
           id: "integer"
         }
       },
+      {
+        label: "Height Units",
+        id: "heightUnits",
+        type: {
+          id: "integer"
+        },
+        defaultValue: 1
+      },
+      {
+        label: "Width Units",
+        id: "widthUnits",
+        type: {
+          id: "integer"
+        },
+        defaultValue: 1
+      }
     ],
     state: [
       {
@@ -55,7 +71,11 @@ function Locker() {
     };
     this.publishOperationalStateChange();
 
-    this.state = {};
+    this.state = {
+      lockerId: this.configuration.lockerId,
+      widthUnits: this.configuration.widthUnits,
+      heightUnits: this.configuration.heightUnits
+    };
 
     this.operationalState = {
       status: 'OK',
@@ -79,12 +99,18 @@ function Locker() {
   }
 
   Locker.prototype.open = function () {
+    console.log('open');
     this.state.locked = false;
     this.publishState();
+    this.device.updateArrayOfLockers();
+    this.device.publishState();
   }
 
   Locker.prototype.close = function () {
+    console.log('close');
     this.state.locked = true;
     this.publishState();
+    this.device.updateArrayOfLockers();
+    this.device.publishState();
   }
 }

@@ -1,0 +1,50 @@
+<style>
+  .lockers-container {
+    height: 300px;
+  }
+
+  .locker {
+    color: rgb(93, 93, 93);
+    border: 1px solid rgb(235, 235, 235);
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .locked {
+    border-color: rgb(235, 46, 86);
+  }
+
+  .locker .container-state {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -15px;
+    margin-left: -10px;
+  }
+
+  .locker .container-id {
+    width: 100%;
+    text-align: center;
+    font-size: 25px;
+    margin-bottom: 5px;
+    position: absolute;
+    bottom: 0
+  }
+</style>
+<div>
+  <mat-grid-list class="lockers-container" cols="3" gutterSize="0px" rowHeight="100px">
+    <mat-grid-tile *ngFor="let item of component.state.arrayOfLockers" [colspan]=item.widthUnits
+      [rowspan]=item.heightUnits>
+      <div (click)="panel.callDeviceService(component, item.locked ?  'open' : 'close', item.lockerId)"
+        [className]="item.locked ? 'locker locked' : 'locker'">
+        <img class="container-state"
+          src="{{panel.getComponentPluginDirectory(component)}}{{item.locked ? 'images/closed.svg' : 'images/opened.svg'}}">
+        <span class="container-id">{{item.lockerId}}</span>
+
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
