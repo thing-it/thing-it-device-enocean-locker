@@ -1,6 +1,7 @@
 <style>
-  .lockers-container {
-    height: 300px;
+  .gropup-lockers-wrapper {
+    width: 100%;
+    overflow: scroll;
   }
 
   .locker {
@@ -13,6 +14,25 @@
 
   .locked {
     border-color: rgb(235, 46, 86);
+  }
+
+  .pending {
+    background: linear-gradient(145deg, #ffffff, #e9e9e9);
+    animation: gradient 3s infinite;
+  }
+
+  @keyframes gradient {
+    0% {
+      background: linear-gradient(145deg, #ffffff, #e9e9e9);
+    }
+
+    50% {
+      background: linear-gradient(145deg, #e9e9e9, #ffffff);
+    }
+
+    100% {
+      background: linear-gradient(145deg, #ffffff, #e9e9e9);
+    }
   }
 
   .locker .container-state {
@@ -35,16 +55,35 @@
   }
 </style>
 <div>
-  <mat-grid-list class="lockers-container" cols="3" gutterSize="0px" rowHeight="100px">
+  <span id="1"></span>
+  
+</div>
+<div class="gropup-lockers-wrapper">
+  <mat-grid-list [style.width.px]="component.state.widthUnits * 100"
+    [style.height.px]="component.state.heightUnits * 105" class="lockers-container"
+    cols="{{component.state.widthUnits}}" gutterSize="0px" rowHeight="100px">
     <mat-grid-tile *ngFor="let item of component.state.arrayOfLockers" [colspan]=item.widthUnits
       [rowspan]=item.heightUnits>
-      <div (click)="panel.callDeviceService(component, item.locked ?  'open' : 'close', item.lockerId)"
-        [className]="item.locked ? 'locker locked' : 'locker'">
+
+
+      <!-- <div (click)="panel.callDeviceService(component, item.status == 'locked' ?  'open' : 'close', item.lockerId)"
+        [className]="item.status == 'locked' ? 'locker locked' : 'locker'">
         <img class="container-state"
-          src="{{panel.getComponentPluginDirectory(component)}}{{item.locked ? 'images/closed.svg' : 'images/opened.svg'}}">
+          src="{{panel.getComponentPluginDirectory(component)}}{{item.status == 'locked' ? 'images/closed.svg' : 'images/opened.svg'}}">
+        <span class="container-id">{{item.lockerId}}</span>
+
+      </div> -->
+
+
+      <div class="locker"
+        (click)="panel.callDeviceService(component, item.status == 'locked' ?  'open' : 'close', item.lockerId)"
+        [ngClass]="{'locked':item.status == 'locked', 'pending':item.status == 'pending' }">
+        <img class="container-state"
+          src="{{panel.getComponentPluginDirectory(component)}}{{item.status == 'locked' ? 'images/closed.svg' : 'images/opened.svg'}}">
         <span class="container-id">{{item.lockerId}}</span>
 
       </div>
     </mat-grid-tile>
   </mat-grid-list>
+
 </div>

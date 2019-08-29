@@ -57,6 +57,8 @@ function LockerArray() {
     this.publishOperationalStateChange();
 
     this.state = {
+      heightUnits: this.configuration.heightUnits,
+      widthUnits: this.configuration.widthUnits,
       arrayOfLockers: []
     };
 

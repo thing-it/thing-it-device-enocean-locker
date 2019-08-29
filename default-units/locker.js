@@ -36,12 +36,12 @@ module.exports = {
     ],
     state: [
       {
-        label: "Locked",
-        id: "locked",
+        label: "Status",
+        id: "status",
         type: {
-          id: "boolean"
+          id: "srting"
         },
-        defaultValue: false
+        defaultValue: 'open'
       },
     ],
     services: [
@@ -71,7 +71,9 @@ function Locker() {
     };
     this.publishOperationalStateChange();
 
+    //TODO: remove default status after impelmentation of API
     this.state = {
+      status: 'open',
       lockerId: this.configuration.lockerId,
       widthUnits: this.configuration.widthUnits,
       heightUnits: this.configuration.heightUnits
@@ -99,18 +101,36 @@ function Locker() {
   }
 
   Locker.prototype.open = function () {
-    console.log('open');
-    this.state.locked = false;
-    this.publishState();
-    this.device.updateArrayOfLockers();
-    this.device.publishState();
+    return new Promise((resolve) => {
+      this.state.status = 'pending';
+      this.publishState();
+      resolve();
+    }).then(() => new Promise((resolve) => setTimeout(resolve, 5000))) //instead of api call
+    .then(() => {      
+      this.state.status = 'unlocked';
+      this.publishState();
+    }).then(() => { 
+      this.device.updateArrayOfLockers();
+      this.device.publishState();
+    });
   }
 
   Locker.prototype.close = function () {
-    console.log('close');
-    this.state.locked = true;
-    this.publishState();
-    this.device.updateArrayOfLockers();
-    this.device.publishState();
+
+    return new Promise((resolve) => {
+      console.log('open');
+      this.state.status = 'pending';
+      this.publishState();
+      this.device.updateArrayOfLockers();
+      this.device.publishState();
+      resolve();
+    }).then(() => new Promise((resolve) => setTimeout(resolve, 5000))) //instead of api call
+    .then(() => {      
+      this.state.status = 'locked';
+      this.publishState();
+    }).then(() => { 
+      this.device.updateArrayOfLockers();
+      this.device.publishState();
+    });
   }
 }

@@ -124,8 +124,8 @@ module.exports = {
       "label": "Enocean Locker Container 01",
       "logLevel": "debug",
       "configuration": {      
-        "heightUnits":2,
-        "widthUnits": 30
+        "heightUnits":3,
+        "widthUnits": 6
       }
     }
   ],
