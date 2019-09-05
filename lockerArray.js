@@ -95,23 +95,24 @@ function LockerArray() {
     this.state.arrayOfLockers = result;
   }
 
-  LockerArray.prototype.open = function (lockerId) {
+  LockerArray.prototype.open = function (param) {
+    const lockerId = param.lockerId;
     this.actors.forEach(item => {
       if (item.configuration.lockerId == lockerId) {
         item.open();
       }
     });
     this.publishStateChange();
-    console.log('open locker', lockerId);
   }
   
-  LockerArray.prototype.close = function (lockerId) {
+  LockerArray.prototype.close = function (param) {
+    const lockerId = param.lockerId;
     this.actors.forEach(item => {
       if (item.configuration.lockerId == lockerId) {
         item.close();
       }
     });
-    console.log('close locker', lockerId);
+    this.publishStateChange();
   }
 
 }

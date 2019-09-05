@@ -73,7 +73,7 @@ function Locker() {
 
     //TODO: remove default status after impelmentation of API
     this.state = {
-      status: 'open',
+      status: 'unlocked',
       lockerId: this.configuration.lockerId,
       widthUnits: this.configuration.widthUnits,
       heightUnits: this.configuration.heightUnits
@@ -105,7 +105,7 @@ function Locker() {
       this.state.status = 'pending';
       this.publishState();
       resolve();
-    }).then(() => new Promise((resolve) => setTimeout(resolve, 5000))) //instead of api call
+    }).then(() => new Promise((resolve) => setTimeout(resolve, 2000))) //instead of api call
     .then(() => {      
       this.state.status = 'unlocked';
       this.publishState();
@@ -116,15 +116,13 @@ function Locker() {
   }
 
   Locker.prototype.close = function () {
-
     return new Promise((resolve) => {
-      console.log('open');
       this.state.status = 'pending';
       this.publishState();
       this.device.updateArrayOfLockers();
       this.device.publishState();
       resolve();
-    }).then(() => new Promise((resolve) => setTimeout(resolve, 5000))) //instead of api call
+    }).then(() => new Promise((resolve) => setTimeout(resolve, 2000))) //instead of api call
     .then(() => {      
       this.state.status = 'locked';
       this.publishState();
