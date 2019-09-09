@@ -12,16 +12,16 @@ module.exports = {
     sensorTypes: [],
     configuration: [
       {
-        label: "heightUnits",
-        id: "Height Units",
+        label: "Height Units",
+        id: "heightUnits",
         type: {
           id: "integer"
         },
         defaultValue: "0"
       },
       {
-        label: "widthUnits",
-        id: "Width Units",
+        label: "Width Units",
+        id: "widthUnits",
         type: {
           id: "integer"
         },
