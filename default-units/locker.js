@@ -3,7 +3,7 @@
 module.exports = {
   metadata: {
     plugin: 'locker',
-    label: 'bGrid Bacnet Island',
+    label: 'EnOcean Locker',
     role: 'actor',
     family: 'locker',
     deviceTypes: ['enocean-locker/lockerArray'],
