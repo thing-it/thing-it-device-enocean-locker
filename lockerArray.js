@@ -92,6 +92,10 @@ function LockerArray() {
       result.push(actor.state);
     });
     
+    result.sort((a, b) => {
+      return a.order - b.order;
+    });
+
     this.state.arrayOfLockers = result;
   }
 

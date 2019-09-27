@@ -32,6 +32,20 @@ module.exports = {
           id: "integer"
         },
         defaultValue: 1
+      },
+      {
+        label: "Height Position",
+        id: "heightPosition",
+        type: {
+          id: "integer"
+        }
+      },
+      {
+        label: "Whidth Position",
+        id: "whidthPosition",
+        type: {
+          id: "integer"
+        }
       }
     ],
     state: [
@@ -76,8 +90,12 @@ function Locker() {
       status: 'unlocked',
       lockerId: this.configuration.lockerId,
       widthUnits: this.configuration.widthUnits,
-      heightUnits: this.configuration.heightUnits
+      heightUnits: this.configuration.heightUnits,
+      order: 0
     };
+    if (this.configuration.whidthPosition && this.configuration.heightPosition) {
+      this.state.order = this.calculateOrder(this.configuration.heightPosition, this.configuration.whidthPosition);
+    }
 
     this.operationalState = {
       status: 'OK',
@@ -130,5 +148,11 @@ function Locker() {
       this.device.updateArrayOfLockers();
       this.device.publishState();
     });
+  }
+
+  Locker.prototype.calculateOrder = function (heightPosition, whidthPosition) {
+    const widthRate = Math.pow(10, this.device.configuration.widthUnits.toString().length + 1);
+    const heightRate = Math.pow(10, this.device.configuration.heightUnits.toString().length + 1);
+    return (heightPosition + heightRate) * widthRate + whidthPosition
   }
 }
