@@ -94,7 +94,10 @@ function Locker() {
       order: 0
     };
     if (this.configuration.whidthPosition && this.configuration.heightPosition) {
-      this.state.order = this.calculateOrder(this.configuration.heightPosition, this.configuration.whidthPosition);
+      this.state.order = this.calculateOrder(
+        this.configuration.heightPosition ? this.configuration.heightPosition : 0,
+        this.configuration.whidthPosition ? this.configuration.whidthPosition : 0
+      );
     }
 
     this.operationalState = {
@@ -124,13 +127,13 @@ function Locker() {
       this.publishState();
       resolve();
     }).then(() => new Promise((resolve) => setTimeout(resolve, 2000))) //instead of api call
-    .then(() => {      
-      this.state.status = 'unlocked';
-      this.publishState();
-    }).then(() => { 
-      this.device.updateArrayOfLockers();
-      this.device.publishState();
-    });
+      .then(() => {
+        this.state.status = 'unlocked';
+        this.publishState();
+      }).then(() => {
+        this.device.updateArrayOfLockers();
+        this.device.publishState();
+      });
   }
 
   Locker.prototype.close = function () {
@@ -141,13 +144,13 @@ function Locker() {
       this.device.publishState();
       resolve();
     }).then(() => new Promise((resolve) => setTimeout(resolve, 2000))) //instead of api call
-    .then(() => {      
-      this.state.status = 'locked';
-      this.publishState();
-    }).then(() => { 
-      this.device.updateArrayOfLockers();
-      this.device.publishState();
-    });
+      .then(() => {
+        this.state.status = 'locked';
+        this.publishState();
+      }).then(() => {
+        this.device.updateArrayOfLockers();
+        this.device.publishState();
+      });
   }
 
   Locker.prototype.calculateOrder = function (heightPosition, whidthPosition) {
